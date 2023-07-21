@@ -1,4 +1,4 @@
-import { SandPackCSS } from "@/components/sandpack/sandpack-styles";
+import { SandPackCSS } from "@/components/codeEditor/sandpack-styles";
 
 export const metadata = {
   title: "Create Next App",
