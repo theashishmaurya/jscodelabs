@@ -2,6 +2,7 @@ import CodeEditor from "@/components/codeEditor";
 import { dir } from "console";
 import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
+import { useState } from "react";
 
 export const DIR = join(process.cwd(), "questions");
 
@@ -12,8 +13,6 @@ export function getData(slug: string) {
 }
 
 export default function Home({ params }: { params: { slug: string } }) {
-  console.log(DIR);
-  console.log(getData(params.slug));
   // contains all the questions folder
   const questionFolder = readdirSync(DIR);
 
@@ -27,27 +26,30 @@ export default function Home({ params }: { params: { slug: string } }) {
   const questionFiles = readdirSync(join(DIR, questionFolderName[0]));
   console.log(questionFiles);
 
-  // Read the file content from the folder
-  const questionFileContent = readFileSync(
-    join(DIR, questionFolderName[0], questionFiles[0]),
-    "utf-8"
-  );
-
   // Read all the files from the template folder
 
   const templateFiles = readdirSync(
     join(DIR, questionFolderName[0], "template")
   );
   console.log(templateFiles);
-  templateFiles.forEach((file) => {
-    console.log(
-      readFileSync(join(DIR, questionFolderName[0], "template", file), "utf-8")
-    );
-  });
+
   return (
     <div>
-      <CodeEditor data={"asa"} />
+      {/* <CodeEditor data={"asa"} /> */}
       <div>{params.slug}</div>
+      <div>
+        {templateFiles.map((file) => {
+          return (
+            // eslint-disable-next-line react/jsx-key
+            <div>
+              {readFileSync(
+                join(DIR, questionFolderName[0], "template", file),
+                "utf-8"
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
