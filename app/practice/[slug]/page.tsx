@@ -1,9 +1,8 @@
 import CodeEditor from "@/components/codeEditor";
-import { dir } from "console";
 import { readdirSync, readFileSync } from "fs";
-import { join } from "path";
+import path, { join } from "path";
 
-const DIR = join(process.cwd(), "questions");
+const DIR = path.resolve("./public", "questions");
 
 export default function Home({ params }: { params: { slug: string } }) {
   // contains all the questions folder
