@@ -1,25 +1,19 @@
-"use client";
-import { Sandpack } from "@codesandbox/sandpack-react";
+import CodeEditor from "@/components/codeEditor";
+import { readdirSync, readFileSync } from "fs";
+import { join } from "path";
+
+export const DIR = join(process.cwd(), "questions");
+
+export function getData() {
+  return readdirSync(DIR, { withFileTypes: true });
+}
 
 export default function Home() {
+  console.log(DIR);
+  console.log(getData());
   return (
     <div>
-      <Sandpack
-        theme="dark"
-        template="react"
-        files={{
-          "/Wrapper.js": `export default () => return "";`,
-
-          "/Button.js": {
-            code: `export default () => {
-    return <button>Hello</button>
-  };`,
-            readOnly: true, // Set as non-editable, defaults to `false`
-            active: true, // Set as main file, defaults to `false`
-            hidden: false, // Tab visibility, defaults to `false`
-          },
-        }}
-      />
+      <CodeEditor data={"asa"} />
     </div>
   );
 }
