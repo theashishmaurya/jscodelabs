@@ -1,8 +1,23 @@
 import CodeEditor from "@/components/codeEditor";
+<<<<<<< HEAD
 import { readdirSync, readFileSync } from "fs";
 import path, { join } from "path";
 
 const DIR = join(process.cwd(), "/questions");
+=======
+import { dir } from "console";
+import { readdirSync, readFileSync } from "fs";
+import { join } from "path";
+import { useState } from "react";
+
+export const DIR = join(process.cwd(), "questions");
+
+export function getData(slug: string) {
+  return readdirSync(DIR, { withFileTypes: true }).filter(
+    (folder) => folder.name === slug
+  );
+}
+>>>>>>> 79ed53e6b4ae105d7568e096d6677a20092e277b
 
 export default function Home({ params }: { params: { slug: string } }) {
   // contains all the questions folder
