@@ -21,7 +21,7 @@ export default function Home({ params }: { params: { slug: string } }) {
   // Read all the files from the template folder
 
   const templateFiles = readdirSync(
-    join(DIR, questionFolderName[0], "/template")
+    join(DIR, questionFolderName[0], "/Template")
   );
   console.log(templateFiles, "This is where it fails");
 
