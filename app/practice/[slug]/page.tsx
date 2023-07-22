@@ -2,7 +2,7 @@ import CodeEditor from "@/components/codeEditor";
 import { readdirSync, readFileSync } from "fs";
 import path, { join } from "path";
 
-const DIR = join(process.cwd(), "questions");
+const DIR = join(process.cwd(), "question");
 
 export default function Home({ params }: { params: { slug: string } }) {
   // contains all the questions folder
