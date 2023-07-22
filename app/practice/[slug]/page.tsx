@@ -1,16 +1,8 @@
 import CodeEditor from "@/components/codeEditor";
-import { dir } from "console";
 import { readdirSync, readFileSync } from "fs";
-import { join } from "path";
-import { useState } from "react";
+import path, { join } from "path";
 
-export const DIR = join(process.cwd(), "questions");
-
-export function getData(slug: string) {
-  return readdirSync(DIR, { withFileTypes: true }).filter(
-    (folder) => folder.name === slug
-  );
-}
+const DIR = join(process.cwd(), "/questions");
 
 export default function Home({ params }: { params: { slug: string } }) {
   // contains all the questions folder
@@ -24,14 +16,13 @@ export default function Home({ params }: { params: { slug: string } }) {
   // Read all the files from the folder
 
   const questionFiles = readdirSync(join(DIR, questionFolderName[0]));
-  console.log(questionFiles);
 
   // Read all the files from the template folder
 
   const templateFiles = readdirSync(
-    join(DIR, questionFolderName[0], "template")
+    join(DIR, questionFolderName[0], "/template")
   );
-  console.log(templateFiles);
+  console.log(templateFiles, "This is where it fails");
 
   return (
     <div>
@@ -43,7 +34,7 @@ export default function Home({ params }: { params: { slug: string } }) {
             // eslint-disable-next-line react/jsx-key
             <div>
               {readFileSync(
-                join(DIR, questionFolderName[0], "template", file),
+                join(DIR, questionFolderName[0], "/template", file),
                 "utf-8"
               )}
             </div>
