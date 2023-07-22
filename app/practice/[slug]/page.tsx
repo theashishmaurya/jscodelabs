@@ -16,7 +16,6 @@ export default function Home({ params }: { params: { slug: string } }) {
   // Read all the files from the folder
 
   const questionFiles = readdirSync(join(DIR, questionFolderName[0]));
-  console.log(questionFiles);
 
   // Read all the files from the template folder
 
@@ -35,7 +34,7 @@ export default function Home({ params }: { params: { slug: string } }) {
             // eslint-disable-next-line react/jsx-key
             <div>
               {readFileSync(
-                join(DIR, questionFolderName[0], "template", file),
+                join(DIR, questionFolderName[0], "/template", file),
                 "utf-8"
               )}
             </div>
