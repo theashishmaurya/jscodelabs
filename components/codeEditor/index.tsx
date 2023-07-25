@@ -2,6 +2,7 @@
 import {
   SandpackCodeEditor,
   SandpackConsole,
+  SandpackFileExplorer,
   SandpackLayout,
   SandpackPreview,
   SandpackProvider,
@@ -12,6 +13,8 @@ export default function CodeEditor({ files }: { files: any }) {
   return (
     <SandpackProvider template="react" theme="dark" files={files}>
       <SandpackLayout style={{ height: "100vh" }}>
+        {/* File explorer is mandatory in react so we can also use it in our code editor */}
+        <SandpackFileExplorer style={{ height: "100vh" }} />
         <SandpackCodeEditor style={{ height: "100vh" }} />
         <SandpackPreview
           style={{ height: "100vh" }}
