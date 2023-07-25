@@ -1,27 +1,29 @@
 "use client";
 import {
+  Sandpack,
   SandpackCodeEditor,
   SandpackConsole,
-  SandpackFileExplorer,
   SandpackLayout,
   SandpackPreview,
   SandpackProvider,
 } from "@codesandbox/sandpack-react";
+import { LogsContainer } from "./customConsole";
 
-export default function CodeEditor({ data }: { data: any }) {
+export default function CodeEditor({ files }: { files: any }) {
+  //TODO: Implement the console in the code editor
+  //TODO: Implement the resizable panes
   return (
-    <SandpackProvider
-      template="static"
-      theme="dark"
-      files={{
-        "/index.js": `console.log("Hello world")`,
-      }}
-    >
-      <SandpackLayout>
-        <SandpackFileExplorer />
-        <SandpackCodeEditor />
-        <SandpackPreview />
-        {/* <SandpackConsole /> */} {/* Console not working fine */}
+    <SandpackProvider template="react" theme="dark" files={files}>
+      <SandpackLayout style={{ height: "100vh" }}>
+        <SandpackCodeEditor style={{ height: "100vh" }} />
+        <SandpackPreview
+          style={{ height: "100vh" }}
+          showNavigator={true}
+          showOpenInCodeSandbox={false}
+          showRefreshButton={true}
+          showSandpackErrorOverlay={true}
+        />
+        <SandpackConsole />
       </SandpackLayout>
     </SandpackProvider>
   );

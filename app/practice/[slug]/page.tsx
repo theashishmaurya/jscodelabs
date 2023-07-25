@@ -1,4 +1,4 @@
-import SandPackCodeEditor from "@/components/codeEditor/sanpack";
+import CodeEditor from "@/components/codeEditor";
 import { readFromFolder } from "@/utils/readFromFolder";
 
 export default async function Home({ params }: { params: { slug: string } }) {
@@ -8,11 +8,13 @@ export default async function Home({ params }: { params: { slug: string } }) {
     content = await readFromFolder(params.slug);
   } catch (e) {
     console.log(e);
+    // Error Page for showing error message when the folder is not found
+    return <div>Error</div>;
   }
 
   return (
     <div>
-      <SandPackCodeEditor result={content} />
+      <CodeEditor files={content} />
     </div>
   );
 }
