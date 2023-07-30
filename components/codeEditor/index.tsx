@@ -21,7 +21,9 @@ export default function CodeEditor({ files }: { files: any }) {
   const dragEventTargetRef = React.useRef<any>(null);
   const [horizontalSize, setHorizontalSize] = React.useState(50); // 50% of the screen
   const [verticalSize, setVerticalSize] = React.useState(70);
+  const [showFile, setShowFile] = React.useState(false);
   const RightColumn = SandpackStack;
+  const MenuColumn = SandpackStack;
 
   const rightColumnStyle = {
     flexGrow: 100 - horizontalSize,
@@ -108,19 +110,35 @@ export default function CodeEditor({ files }: { files: any }) {
     };
   }, []);
 
-  // React.useEffect(() => {
-  //   setConsoleVisibility(options?.showConsole ?? false);
-  // }, [options.showConsole]);
-
   return (
     <SandpackProvider template="react" theme="dark" files={files}>
       <SandpackLayout
         style={{
-          height: "100vh",
+          height: "90vh",
         }}
       >
-        {/* File explorer is mandatory in react so we can also use it in our code editor */}
-        <SandpackFileExplorer style={{ height: "100%" }} />
+        <svg
+          onClick={() => setShowFile((prev) => !prev)}
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          height={24}
+          width={24}
+          style={{
+            cursor: "pointer",
+          }}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+          />
+        </svg>
+
+        {showFile ? <SandpackFileExplorer style={{ height: "100%" }} /> : null}
+
         <SandpackCodeEditor
           style={{
             height: "100%", // use the original editor height
@@ -130,6 +148,7 @@ export default function CodeEditor({ files }: { files: any }) {
             overflow: "hidden",
           }}
         />
+
         <div
           className={classNames("resize-handler", [])}
           style={{
@@ -179,9 +198,9 @@ export default function CodeEditor({ files }: { files: any }) {
                 : 0,
             }}
           >
-            {/* Use better Console */}
             <SandpackConsole
               className="h-full overflow-hidden"
+              style={{ display: consoleVisibility ? "block" : "none" }}
               onLogsChange={(logs) => {
                 setCouter(logs.length);
               }}
