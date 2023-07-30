@@ -10,6 +10,7 @@ import {
   SandpackPreview,
   SandpackProvider,
   SandpackStack,
+  SandpackTests,
 } from "@codesandbox/sandpack-react";
 import React, { useState } from "react";
 import classNames from "classnames";
@@ -22,6 +23,7 @@ export default function CodeEditor({ files }: { files: any }) {
   const [horizontalSize, setHorizontalSize] = React.useState(50); // 50% of the screen
   const [verticalSize, setVerticalSize] = React.useState(70);
   const [showFile, setShowFile] = React.useState(false);
+  const [testVisibility, setTestVisibility] = React.useState(false);
   const RightColumn = SandpackStack;
   const MenuColumn = SandpackStack;
 
@@ -111,105 +113,126 @@ export default function CodeEditor({ files }: { files: any }) {
   }, []);
 
   return (
-    <SandpackProvider template="react" theme="dark" files={files}>
-      <SandpackLayout
-        style={{
-          height: "90vh",
+    <>
+      <SandpackProvider
+        template="react"
+        theme="dark"
+        files={files}
+        customSetup={{
+          //Jest and react-testing-library
+          dependencies: {
+            "@testing-library/jest-dom": "5.11.4",
+            "@testing-library/react": "11.2.7",
+          },
         }}
       >
-        <svg
-          onClick={() => setShowFile((prev) => !prev)}
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          height={24}
-          width={24}
+        <SandpackLayout
           style={{
-            cursor: "pointer",
+            height: "90vh",
           }}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+          <svg
+            onClick={() => setShowFile((prev) => !prev)}
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            height={24}
+            width={24}
+            style={{
+              cursor: "pointer",
+            }}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+            />
+          </svg>
+
+          {showFile ? (
+            <SandpackFileExplorer style={{ height: "100%" }} />
+          ) : null}
+
+          <SandpackCodeEditor
+            style={{
+              height: "100%", // use the original editor height
+              flexGrow: horizontalSize,
+              flexShrink: horizontalSize,
+              flexBasis: 0,
+              overflow: "hidden",
+            }}
           />
-        </svg>
 
-        {showFile ? <SandpackFileExplorer style={{ height: "100%" }} /> : null}
-
-        <SandpackCodeEditor
-          style={{
-            height: "100%", // use the original editor height
-            flexGrow: horizontalSize,
-            flexShrink: horizontalSize,
-            flexBasis: 0,
-            overflow: "hidden",
-          }}
-        />
-
-        <div
-          className={classNames("resize-handler", [])}
-          style={{
-            left: `calc(${horizontalSize}% - 5px)`,
-            width: 10,
-            cursor: "ew-resize",
-          }}
-          data-direction="horizontal"
-          onMouseDown={(event): void => {
-            dragEventTargetRef.current = event.target;
-          }}
-        />
-        <RightColumn {...rightColumnProps}>
-          <SandpackPreview
-            actionsChildren={actionsChildren}
-            style={topRowStyle}
-            showNavigator={true}
-            showOpenInCodeSandbox={false}
-            showRefreshButton={true}
-            showSandpackErrorOverlay={true}
-          />
           <div
-            className={classNames("resize-handler", [
-              // dragHandler({ direction: "vertical" }),
-            ])}
-            data-direction="vertical"
+            className={classNames("resize-handler", [])}
+            style={{
+              left: `calc(${horizontalSize}% - 5px)`,
+              width: 10,
+              cursor: "ew-resize",
+            }}
+            data-direction="horizontal"
             onMouseDown={(event): void => {
               dragEventTargetRef.current = event.target;
             }}
-            style={{
-              top: `calc(${verticalSize}% - 5px)`,
-              cursor: "ns-resize",
-              width: 100 + "%",
-              height: 10,
-            }}
           />
-
-          <div
-            className="console-wrapper w-full overflow-hidden"
-            style={{
-              flexGrow: consoleVisibility ? 100 - verticalSize : 0,
-              flexShrink: consoleVisibility ? 100 - verticalSize : 0,
-              flexBasis: 0,
-              width: "100%",
-              maxHeight: consoleVisibility
-                ? `calc(${100 - verticalSize}% - 1px)`
-                : 0,
-            }}
-          >
-            <SandpackConsole
-              className="h-full overflow-hidden"
-              style={{ display: consoleVisibility ? "block" : "none" }}
-              onLogsChange={(logs) => {
-                setCouter(logs.length);
-              }}
-              showHeader={false}
+          <RightColumn {...rightColumnProps}>
+            <SandpackPreview
+              actionsChildren={actionsChildren}
+              style={topRowStyle}
+              showNavigator={true}
+              showOpenInCodeSandbox={false}
+              showRefreshButton={true}
+              showSandpackErrorOverlay={true}
             />
-          </div>
-        </RightColumn>
-      </SandpackLayout>
-    </SandpackProvider>
+            <div
+              className={classNames("resize-handler", [
+                // dragHandler({ direction: "vertical" }),
+              ])}
+              data-direction="vertical"
+              onMouseDown={(event): void => {
+                dragEventTargetRef.current = event.target;
+              }}
+              style={{
+                top: `calc(${verticalSize}% - 5px)`,
+                cursor: "ns-resize",
+                width: 100 + "%",
+                height: 10,
+              }}
+            />
+
+            <div
+              className="console-wrapper w-full overflow-hidden"
+              style={{
+                flexGrow: consoleVisibility ? 100 - verticalSize : 0,
+                flexShrink: consoleVisibility ? 100 - verticalSize : 0,
+                flexBasis: 0,
+                width: "100%",
+                maxHeight: consoleVisibility
+                  ? `calc(${100 - verticalSize}% - 1px)`
+                  : 0,
+              }}
+            >
+              {!testVisibility && (
+                <SandpackConsole
+                  className="h-full overflow-hidden"
+                  style={{ display: consoleVisibility ? "block" : "none" }}
+                  onLogsChange={(logs) => {
+                    setCouter(logs.length);
+                  }}
+                  showHeader={false}
+                />
+              )}
+              {testVisibility ? (
+                <SandpackTests className="h-full min-h-full" />
+              ) : null}
+            </div>
+          </RightColumn>
+        </SandpackLayout>
+      </SandpackProvider>
+      <button onClick={() => setTestVisibility((prev) => !prev)}>Test</button>
+    </>
   );
 }
 
