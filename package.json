@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@codesandbox/sandpack-react": "^2.6.9",
+    "@mdx-js/loader": "^2.3.0",
+    "@mdx-js/react": "^2.3.0",
+    "@next/mdx": "^13.4.12",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",
     "@types/node": "20.4.2",

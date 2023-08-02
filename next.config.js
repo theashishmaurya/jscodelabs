@@ -1,9 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // import the question folder as a module path
   webpack: (config) => {
     return config;
   },
+  experimental: {
+    mdxRs: true,
+  },
 };
+const withMDX = require("@next/mdx")();
 
-module.exports = nextConfig;
+module.exports = withMDX(nextConfig);

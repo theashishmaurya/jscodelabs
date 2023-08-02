@@ -1,5 +1,6 @@
 import CodeEditor from "@/components/codeEditor";
+import Hello from "./hello.mdx";
 
 export default function Page() {
-  return <div>Hello</div>;
+  return <Hello />;
 }
