@@ -53,7 +53,11 @@ export default function CodeEditor({ files }: { files: any }) {
   const actionsChildren = (
     <ConsoleCounterButton
       counter={counter}
-      onClick={(): void => setConsoleVisibility((prev) => !prev)}
+      onClick={(): void => {
+        testVisibility
+          ? setTestVisibility(false)
+          : setConsoleVisibility((prev) => !prev);
+      }}
     />
   );
   const onDragMove = (event: MouseEvent): void => {
@@ -227,13 +231,23 @@ export default function CodeEditor({ files }: { files: any }) {
                 />
               )}
               {testVisibility ? (
-                <SandpackTests className="h-full min-h-full" />
+                <SandpackTests className="h-full min-h-full block" />
               ) : null}
             </div>
           </RightColumn>
         </SandpackLayout>
       </SandpackProvider>
-      <button onClick={() => setTestVisibility((prev) => !prev)}>Test</button>
+      <div className="flex justify-end items-end w-full my-4">
+        <div className="mx-2">
+          <button
+            // Dark theme button
+            className="bg-gray-800 text-white px-6 py-1"
+            onClick={() => setTestVisibility((prev) => !prev)}
+          >
+            Test
+          </button>
+        </div>
+      </div>
     </>
   );
 }
