@@ -216,11 +216,13 @@ export default function CodeEditor({ files }: { files: any }) {
             >
               {!testVisibility && (
                 <SandpackConsole
-                  className="h-full overflow-hidden"
-                  style={{ display: consoleVisibility ? "block" : "none" }}
-                  onLogsChange={(logs) => {
-                    setCouter(logs.length);
-                  }}
+                  className={classNames("overflow-y", [
+                    // Displaty the console when the consoleVisibility is true
+                    consoleVisibility ? "block" : "hidden",
+                  ])}
+                  // onLogsChange={(logs) => { // causing rerender
+                  //   setCouter(logs.length);
+                  // }}
                   showHeader={false}
                 />
               )}
