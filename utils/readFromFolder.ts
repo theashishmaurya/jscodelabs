@@ -25,8 +25,15 @@ const ReadFile = (path: string): Promise<string> => {
   });
 };
 
-const getQuestion = (slug: string) => {
+const getQuestion = async (slug: string) => {
   const questionDir = join(DIR, slug, "question.mdx");
+  try {
+    const data = await ReadFile(questionDir);
+    return data;
+  } catch (err) {
+    // Handle error if needed
+    // console.log(err, "Error while reading file");
+  }
 };
 
 const getTemplate = async (slug: string) => {
@@ -71,7 +78,12 @@ export const readFromFolder = async (slug: string) => {
     });
 
     if (file) {
-      return await getTemplate(slugFolder);
+      const question = await getQuestion(slugFolder);
+      const template = await getTemplate(slugFolder);
+      return {
+        question,
+        template,
+      };
     } else {
       throw new Error("Folder not found");
     }
