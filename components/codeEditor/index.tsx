@@ -154,7 +154,6 @@ export default function CodeEditor({ files }: { files: any }) {
               d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
             />
           </svg>
-
           {showFile ? (
             <SandpackFileExplorer style={{ height: "100%" }} />
           ) : null}
@@ -168,7 +167,6 @@ export default function CodeEditor({ files }: { files: any }) {
               overflow: "hidden",
             }}
           />
-
           <div
             className={classNames("resize-handler", [])}
             style={{
